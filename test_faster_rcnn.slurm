@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#SBATCH -o train_faster_rcnn_%j.out
-#SBATCH -e train_faster_rcnn_%j.err
+#SBATCH -o test_faster_rcnn_%j.out
+#SBATCH -e test_faster_rcnn_%j.out
 #SBATCH -p gpu
 #SBATCH --gres=gpu:1
 #SBATCH -t 12:00:00
@@ -15,5 +15,4 @@ containerdir=/scratch/$USER
 
 singularity exec --nv \
     $containerdir/tensorflow-1.12.0-py36.simg \
-    python -u trainval_net.py --dataset svhn --cuda --bs 8 --disp_interval 5 \
-        --save_dir /scratch/rnm6u/faster-rcnn.pytorch/models/ --checkpoint_interval 2000 "$@"
+    python -u test_net.py --dataset svhn --cuda --net vgg16 "$@"

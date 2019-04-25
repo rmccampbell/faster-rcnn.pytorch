@@ -3,7 +3,6 @@
 #SBATCH -e demo_faster_rcnn_%j.err
 #SBATCH -p gpu
 #SBATCH --gres=gpu:1
-#SBATCH -c 2
 #SBATCH -t 12:00:00
 #SBATCH -A class-cs6501-004-sp19
 
@@ -20,5 +19,6 @@ containerdir=/scratch/$USER
 
 singularity exec --nv \
     $containerdir/tensorflow-1.12.0-py36.simg \
-    python -u demo.py --dataset svhn --cuda --net vgg16 --load_dir models --image_dir demo \
+    python -u demo.py --dataset svhn --cuda --net vgg16 \
+        --load_dir /scratch/rnm6u/faster-rcnn.pytorch/models --image_dir demo \
         --checksession $checksession --checkepoch $checkepoch --checkpoint $checkpoint "${@:4}"
