@@ -10,9 +10,15 @@ module purge
 module load singularity
 # module load tensorflow
 
+checksession=${1?}
+checkepoch=${2?}
+checkpoint=${3?}
+
 # Assuming that the container has been copied to the user's /scratch directory
 containerdir=/scratch/$USER
 
 singularity exec --nv \
     $containerdir/tensorflow-1.12.0-py36.simg \
-    python -u test_net.py --dataset svhn --cuda --net vgg16 "$@"
+    python -u test_net.py --dataset svhn --cuda --net vgg16 \
+        --load_dir /scratch/rnm6u/faster-rcnn.pytorch/models \
+        --checksession $checksession --checkepoch $checkepoch --checkpoint $checkpoint "${@:4}"

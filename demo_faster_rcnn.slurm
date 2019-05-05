@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH -o demo_faster_rcnn_%j.out
-#SBATCH -e demo_faster_rcnn_%j.err
+#SBATCH -e demo_faster_rcnn_%j.out
 #SBATCH -p gpu
 #SBATCH --gres=gpu:1
 #SBATCH -t 12:00:00

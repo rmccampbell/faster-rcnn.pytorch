@@ -218,10 +218,10 @@ if __name__ == '__main__':
     gt_boxes = gt_boxes.cuda()
 
   # make variable
-  im_data = Variable(im_data, volatile=True)
-  im_info = Variable(im_info, volatile=True)
-  num_boxes = Variable(num_boxes, volatile=True)
-  gt_boxes = Variable(gt_boxes, volatile=True)
+  # im_data = Variable(im_data, volatile=True)
+  # im_info = Variable(im_info, volatile=True)
+  # num_boxes = Variable(num_boxes, volatile=True)
+  # gt_boxes = Variable(gt_boxes, volatile=True)
 
   if args.cuda > 0:
     cfg.CUDA = True
@@ -333,6 +333,7 @@ if __name__ == '__main__':
       misc_tic = time.time()
       if vis:
           im2show = np.copy(im)
+          im2show = cv2.resize(im2show, (0, 0), fx=4, fy=4)
       for j in xrange(1, len(svhn_classes)):
           inds = torch.nonzero(scores[:,j]>thresh).view(-1)
           # if there is det
@@ -351,7 +352,7 @@ if __name__ == '__main__':
             keep = nms(cls_boxes[order, :], cls_scores[order], cfg.TEST.NMS)
             cls_dets = cls_dets[keep.view(-1).long()]
             if vis:
-              im2show = vis_detections(im2show, svhn_classes[j], cls_dets.cpu().numpy(), 0.5)
+              im2show = vis_detections(im2show, svhn_classes[j], cls_dets.cpu().numpy(), 0.5, 4)
 
       misc_toc = time.time()
       nms_time = misc_toc - misc_tic
